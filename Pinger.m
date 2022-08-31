@@ -12,6 +12,7 @@
 - (void)start:(NSString*) ip {
     // create and configure a new ping object
     _center = [NSNotificationCenter defaultCenter];
+    _queue = [NSNotificationQueue defaultQueue];
     self.ping = [Ping new];
     self.ping.host = ip;
 //    self.ping.host = @"192.168.0.140";
@@ -44,10 +45,10 @@
 
 -(void)ping:(Ping *)pinger didReceiveReplyWithSummary:(PingSummary *)summary {
 //    NSLog(@"REPLY>  %@", summary);
-    
-    [_center postNotificationName:@"PingRecived" object:nil userInfo:@{
+    NSNotification* notification = [[NSNotification alloc] initWithName:@"PingReceived" object:nil userInfo:@{
         @"summary": summary
     }];
+    [_queue enqueueNotification:notification postingStyle:NSPostASAP];
 }
 
 -(void)ping:(Ping *)pinger didReceiveUnexpectedReplyWithSummary:(PingSummary *)summary {

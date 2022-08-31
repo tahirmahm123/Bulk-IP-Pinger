@@ -12,17 +12,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface Pinger : NSObject <PingDelegate>
 @property (weak, nonatomic) NSNotificationCenter* center;
+@property (weak, nonatomic) NSNotificationQueue* queue;
 @property (strong, nonatomic) Ping *ping;
 - (void)start:(NSString*) ip;
 -(void)ping:(Ping *)pinger didReceiveReplyWithSummary:(PingSummary *)summary;
 -(void)ping:(Ping *)pinger didReceiveUnexpectedReplyWithSummary:(PingSummary *)summary ;
-
 -(void)ping:(Ping *)pinger didSendPingWithSummary:(PingSummary *)summary;
-
 -(void)ping:(Ping *)pinger didTimeoutWithSummary:(PingSummary *)summary;
-
 -(void)ping:(Ping *)pinger didFailWithError:(NSError *)error;
-
 -(void)ping:(Ping *)pinger didFailToSendPingWithSummary:(PingSummary *)summary error:(NSError *)error ;
 @end
 
